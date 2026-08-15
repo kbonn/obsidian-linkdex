@@ -5,7 +5,6 @@ import {
 	Notice,
 	Plugin,
 	PluginSettingTab,
-	Setting,
 	SettingDefinitionItem,
 	TFile,
 	Vault,
@@ -542,25 +541,5 @@ class LinkDexSettingTab extends PluginSettingTab {
 		}
 
 		await super.setControlValue(key, value);
-	}
-
-	display(): void {
-		const { containerEl } = this;
-		containerEl.empty();
-
-		new Setting(containerEl).setName("Index file").setHeading();
-
-		new Setting(containerEl)
-			.setName("Terms file path")
-			.setDesc("Vault-relative path to the terms file. One term per line.")
-			.addText((text) =>
-				text
-					.setPlaceholder("_index.md")
-					.setValue(this.plugin.settings.termsFilePath)
-					.onChange(async (value) => {
-						this.plugin.settings.termsFilePath = value.trim() || "_index.md";
-						await this.plugin.saveSettings();
-					})
-			);
 	}
 }
