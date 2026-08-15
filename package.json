@@ -1,18 +1,22 @@
 {
 	"name": "linkdex",
 	"version": "1.0.0",
-	"description": "LinkDex — automatically wrap relevant terms in wiki-style links",
+	"description": "LinkDex — automatically wrap relevant terms in wiki-style links.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node scripts/generate-manifest.mjs && node esbuild.config.mjs",
-		"build": "node scripts/generate-manifest.mjs && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+		"build": "node scripts/generate-manifest.mjs && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"lint": "eslint main.ts"
 	},
 	"keywords": [],
-	"author": "",
-	"license": "MIT",
+	"author": "kbonn",
+	"license": "GPL-3.0-or-later",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
+		"@typescript-eslint/parser": "^8.46.4",
 		"esbuild": "0.25.5",
+		"eslint": "^9.39.1",
+		"eslint-plugin-obsidianmd": "^0.3.0",
 		"obsidian": "latest",
 		"typescript": "^5.8.3"
 	}

@@ -2,8 +2,8 @@
 	"id": "linkdex",
 	"name": "LinkDex",
 	"version": "1.0.0",
-	"minAppVersion": "1.0.0",
-	"description": "LinkDex — automatically wrap relevant terms in wiki-style links",
+	"minAppVersion": "0.15.0",
+	"description": "LinkDex — automatically wrap relevant terms in wiki-style links.",
 	"author": "kbonn",
 	"authorUrl": "https://github.com/kbonn",
 	"isDesktopOnly": false
