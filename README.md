@@ -1,4 +1,4 @@
-# Auto Link
+# LinkDex
 
 An Obsidian plugin that scans the active note for relevant terms and wraps whole-word matches in wiki-style links (`[[...]]`).
 
@@ -15,18 +15,18 @@ npm run build
 3. Copy or symlink the plugin into your vault:
 
 ```bash
-mkdir -p /path/to/vault/.obsidian/plugins/obsidian-auto-link
-ln -s "$(pwd)/main.js" /path/to/vault/.obsidian/plugins/obsidian-auto-link/main.js
-ln -s "$(pwd)/manifest.json" /path/to/vault/.obsidian/plugins/obsidian-auto-link/manifest.json
+mkdir -p /path/to/vault/.obsidian/plugins/linkdex
+ln -s "$(pwd)/main.js" /path/to/vault/.obsidian/plugins/linkdex/main.js
+ln -s "$(pwd)/manifest.json" /path/to/vault/.obsidian/plugins/linkdex/manifest.json
 ```
 
-4. Enable **Auto Link** in Obsidian settings under Community plugins.
+4. Enable **LinkDex** in Obsidian settings under Community plugins.
 
 ## Terms file
 
 Create a file in your vault with one term per line. Blank lines and lines starting with `#` are ignored.
 
-Example `terms`:
+Example `_index.md`:
 
 ```text
 # Glossary
@@ -35,13 +35,13 @@ API
 Obsidian
 ```
 
-Configure the vault-relative path in **Settings → Auto Link → Terms file path** (default: `terms`).
+Configure the vault-relative path in **Settings → LinkDex → Terms file path** (default: `_index.md`).
 
 ## Usage
 
 1. Open a markdown note.
-2. Click the link icon in the left sidebar ribbon.
-3. The plugin scans the active file and wraps matching terms in `[[...]]`.
+2. Click the link icon in the left sidebar ribbon, or use the **Link terms in active file** hotkey.
+3. LinkDex scans the active file and wraps matching terms in `[[...]]`.
 
 Matching rules:
 

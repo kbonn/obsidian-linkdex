@@ -6,8 +6,8 @@ const prod = process.argv[2] === "production";
 const context = await esbuild.context({
 	banner: {
 		js: prod
-			? "/* Auto Link */"
-			: '/* Auto Link dev */ new Notice("Auto Link dev build loaded");',
+			? "/* LinkDex */"
+			: '/* LinkDex dev */ new Notice("LinkDex dev build loaded");',
 	},
 	entryPoints: ["main.ts"],
 	bundle: true,

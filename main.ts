@@ -9,12 +9,12 @@ import {
 	Vault,
 } from "obsidian";
 
-interface AutoLinkSettings {
+interface LinkDexSettings {
 	termsFilePath: string;
 }
 
-const DEFAULT_SETTINGS: AutoLinkSettings = {
-	termsFilePath: "terms.txt",
+const DEFAULT_SETTINGS: LinkDexSettings = {
+	termsFilePath: "_index.md",
 };
 
 type SegmentType = "text" | "code" | "wikilink" | "markdown-link";
@@ -174,13 +174,20 @@ export function processNote(
 	return { content: processed.join(""), count: totalCount };
 }
 
-export default class AutoLinkPlugin extends Plugin {
-	settings: AutoLinkSettings = DEFAULT_SETTINGS;
+export default class LinkDexPlugin extends Plugin {
+	settings: LinkDexSettings = DEFAULT_SETTINGS;
 
 	async onload() {
 		await this.loadSettings();
-		this.addSettingTab(new AutoLinkSettingTab(this.app, this));
-		this.addRibbonIcon("link", "Auto link terms in active file", () => {
+		this.addSettingTab(new LinkDexSettingTab(this.app, this));
+		this.addCommand({
+			id: "linkdex-terms",
+			name: "Link terms in active file",
+			callback: () => {
+				void this.linkTermsInActiveFile();
+			},
+		});
+		this.addRibbonIcon("link", "Link terms in active file", () => {
 			void this.linkTermsInActiveFile();
 		});
 	}
@@ -200,7 +207,7 @@ export default class AutoLinkPlugin extends Plugin {
 			return;
 		}
 
-		const terms = await loadTerms(this.app.vault, `${this.settings.termsFilePath}.md`);
+		const terms = await loadTerms(this.app.vault, this.settings.termsFilePath);
 		if (terms === null) {
 			new Notice(`Terms file not found: ${this.settings.termsFilePath}`);
 			return;
@@ -224,10 +231,10 @@ export default class AutoLinkPlugin extends Plugin {
 	}
 }
 
-class AutoLinkSettingTab extends PluginSettingTab {
-	plugin: AutoLinkPlugin;
+class LinkDexSettingTab extends PluginSettingTab {
+	plugin: LinkDexPlugin;
 
-	constructor(app: App, plugin: AutoLinkPlugin) {
+	constructor(app: App, plugin: LinkDexPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -236,17 +243,17 @@ class AutoLinkSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Auto Link settings" });
+		containerEl.createEl("h2", { text: "LinkDex settings" });
 
 		new Setting(containerEl)
 			.setName("Terms file path")
 			.setDesc("Vault-relative path to the terms file. One term per line.")
 			.addText((text) =>
 				text
-					.setPlaceholder("terms")
+					.setPlaceholder("_index.md")
 					.setValue(this.plugin.settings.termsFilePath)
 					.onChange(async (value) => {
-						this.plugin.settings.termsFilePath = value.trim() || "terms";
+						this.plugin.settings.termsFilePath = value.trim() || "_index.md";
 						await this.plugin.saveSettings();
 					})
 			);

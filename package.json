@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-auto-link",
+	"name": "linkdex",
 	"version": "1.0.0",
-	"description": "Automatically wrap relevant terms in wiki-style links",
+	"description": "LinkDex — automatically wrap relevant terms in wiki-style links",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
