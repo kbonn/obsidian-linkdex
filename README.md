@@ -24,24 +24,43 @@ ln -s "$(pwd)/manifest.json" /path/to/vault/.obsidian/plugins/linkdex/manifest.j
 
 ## Terms file
 
-Create a file in your vault with one term per line. Blank lines and lines starting with `#` are ignored.
+Create a file in your vault with one term per line. Blank lines and lines starting with `//` are ignored.
 
 Example `_index.md`:
 
 ```text
-# Glossary
+// Glossary
 machine learning
 API
 Obsidian
+
+//Auto Indexed
+Daily Notes
+Project Alpha
 ```
+
+Lines starting with `//` are ignored as terms, except the `//Auto Indexed` marker which separates manually maintained terms from auto-managed terms.
 
 Configure the vault-relative path in **Settings → LinkDex → Terms file path** (default: `_index.md`).
 
 ## Usage
 
+### Link terms in active file
+
 1. Open a markdown note.
 2. Click the link icon in the left sidebar ribbon, or use the **Link terms in active file** hotkey.
 3. LinkDex scans the active file and wraps matching terms in `[[...]]`.
+
+### Suggest index terms from vault
+
+1. Run **Suggest index terms from vault** from the command palette, or assign a hotkey in **Settings → Hotkeys**.
+2. LinkDex scans all markdown note names in your vault and compares them against your index file and any terms you previously marked as "Don't Suggest Again".
+3. A modal lists remaining note names with two checkbox columns:
+   - **Add** — append the term to the `//Auto Indexed` section of your index file
+   - **Don't Suggest Again** — hide the term from future suggestion runs
+4. Click **Add to Index** to apply your selections.
+
+Added terms are merged into the `//Auto Indexed` section in alphabetical order without duplication. Manual terms above the `//Auto Indexed` marker are preserved unchanged.
 
 Matching rules:
 
