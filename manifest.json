@@ -1,7 +1,7 @@
 {
 	"id": "linkdex",
 	"name": "LinkDex",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.13.0",
 	"description": "Automatically wrap relevant terms in wiki-style links based on a list of terms stored in an index file.",
 	"author": "kbonn",
