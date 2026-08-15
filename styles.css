@@ -1,0 +1,8 @@
+.linkdex-suggest-table-container {
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.linkdex-suggest-footer {
+	margin-top: 1em;
+}

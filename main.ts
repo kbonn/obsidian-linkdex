@@ -261,7 +261,7 @@ export function linkTermsInSegment(
 		const escaped = escapeRegex(term);
 		const regex = new RegExp(`\\b(${escaped})\\b`, "gi");
 
-		result = result.replace(regex, (match, _captured, offset) => {
+		result = result.replace(regex, (match, _captured, offset: number) => {
 			if (isInsideWikilink(result, offset)) {
 				return match;
 			}
@@ -312,17 +312,15 @@ class SuggestTermsModal extends Modal {
 	onOpen(): void {
 		const { contentEl, titleEl } = this;
 		contentEl.empty();
-		titleEl.setText("Suggest Index Terms");
+		titleEl.setText("Suggest index terms");
 
 		const tableContainer = contentEl.createDiv({ cls: "linkdex-suggest-table-container" });
-		tableContainer.style.maxHeight = "400px";
-		tableContainer.style.overflowY = "auto";
 
 		const table = tableContainer.createEl("table", { cls: "linkdex-suggest-table" });
 		const headerRow = table.createEl("tr");
 		headerRow.createEl("th", { text: "Term" });
 		headerRow.createEl("th", { text: "Add" });
-		headerRow.createEl("th", { text: "Don't Suggest Again" });
+		headerRow.createEl("th", { text: "Don't suggest again" });
 
 		for (const term of this.terms) {
 			const row = table.createEl("tr");
@@ -350,9 +348,8 @@ class SuggestTermsModal extends Modal {
 		}
 
 		const footer = contentEl.createDiv({ cls: "linkdex-suggest-footer" });
-		footer.style.marginTop = "1em";
 
-		const addButton = footer.createEl("button", { text: "Add to Index", cls: "mod-cta" });
+		const addButton = footer.createEl("button", { text: "Add to index", cls: "mod-cta" });
 		addButton.addEventListener("click", () => {
 			void this.handleSubmit();
 		});
@@ -421,14 +418,14 @@ export default class LinkDexPlugin extends Plugin {
 		await this.loadSettings();
 		this.addSettingTab(new LinkDexSettingTab(this.app, this));
 		this.addCommand({
-			id: "linkdex-terms",
+			id: "link-terms-in-active-file",
 			name: "Link terms in active file",
 			callback: () => {
 				void this.linkTermsInActiveFile();
 			},
 		});
 		this.addCommand({
-			id: "linkdex-suggest-terms",
+			id: "suggest-index-terms-from-vault",
 			name: "Suggest index terms from vault",
 			callback: () => {
 				void this.suggestIndexTerms();
@@ -440,7 +437,8 @@ export default class LinkDexPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		const data = (await this.loadData()) as Partial<LinkDexSettings> | null;
+		this.settings = { ...DEFAULT_SETTINGS, ...data };
 		if (!Array.isArray(this.settings.dontSuggestAgain)) {
 			this.settings.dontSuggestAgain = [];
 		}
@@ -517,7 +515,7 @@ class LinkDexSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "LinkDex settings" });
+		new Setting(containerEl).setName("Index file").setHeading();
 
 		new Setting(containerEl)
 			.setName("Terms file path")
