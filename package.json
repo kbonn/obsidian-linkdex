@@ -4,8 +4,8 @@
 	"description": "LinkDex — automatically wrap relevant terms in wiki-style links",
 	"main": "main.js",
 	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+		"dev": "node scripts/generate-manifest.mjs && node esbuild.config.mjs",
+		"build": "node scripts/generate-manifest.mjs && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
 	},
 	"keywords": [],
 	"author": "",
