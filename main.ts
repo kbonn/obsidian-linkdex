@@ -6,6 +6,7 @@ import {
 	Plugin,
 	PluginSettingTab,
 	Setting,
+	SettingDefinitionItem,
 	TFile,
 	Vault,
 } from "obsidian";
@@ -509,6 +510,38 @@ class LinkDexSettingTab extends PluginSettingTab {
 	constructor(app: App, plugin: LinkDexPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
+	}
+
+	getSettingDefinitions(): SettingDefinitionItem[] {
+		return [
+			{
+				type: "group",
+				heading: "Index file",
+				items: [
+					{
+						name: "Terms file path",
+						desc: "Vault-relative path to the terms file. One term per line.",
+						control: {
+							type: "text",
+							key: "termsFilePath",
+							placeholder: "_index.md",
+							defaultValue: "_index.md",
+						},
+					},
+				],
+			},
+		];
+	}
+
+	async setControlValue(key: string, value: unknown): Promise<void> {
+		if (key === "termsFilePath") {
+			const trimmed = typeof value === "string" ? value.trim() : "";
+			this.plugin.settings.termsFilePath = trimmed || "_index.md";
+			await this.plugin.saveSettings();
+			return;
+		}
+
+		await super.setControlValue(key, value);
 	}
 
 	display(): void {

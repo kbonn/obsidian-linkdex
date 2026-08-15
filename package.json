@@ -1,7 +1,7 @@
 {
 	"name": "linkdex",
-	"version": "1.0.0",
-	"description": "LinkDex — automatically wrap relevant terms in wiki-style links.",
+	"version": "1.0.1",
+	"description": "Automatically wrap relevant terms in wiki-style links based on a list of terms stored in an index file.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node scripts/generate-manifest.mjs && node esbuild.config.mjs",
