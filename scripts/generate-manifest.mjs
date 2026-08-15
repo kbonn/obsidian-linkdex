@@ -12,12 +12,16 @@ const existing = fs.existsSync(manifestPath)
 	? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
 	: {};
 
+const description = pkg.description.endsWith(".")
+	? pkg.description
+	: `${pkg.description}.`;
+
 const manifest = {
 	id: "linkdex",
 	name: "LinkDex",
 	version: pkg.version,
-	minAppVersion: existing.minAppVersion ?? "1.0.0",
-	description: pkg.description,
+	minAppVersion: existing.minAppVersion ?? "0.15.0",
+	description,
 	author: existing.author ?? "kbonn",
 	authorUrl: existing.authorUrl ?? "https://github.com/kbonn",
 	isDesktopOnly: existing.isDesktopOnly ?? false,
