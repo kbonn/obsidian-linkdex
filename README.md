@@ -1,31 +1,21 @@
 # LinkDex
 
-An Obsidian plugin that scans the active note for relevant terms and wraps whole-word matches in wiki-style links (`[[...]]`).
+LinkDex helps you build and maintain a glossary of linkable terms, then automatically wraps matching words in your notes with wiki-style links (`[[...]]`).
 
-## Setup
+## Installation
 
-1. Clone this repository.
-2. Install dependencies and build:
+1. Open **Settings → Community plugins**.
+2. Turn off **Restricted mode** if it is enabled.
+3. Click **Browse**, search for **LinkDex**, and click **Install**.
+4. Enable LinkDex from the **Community plugins** list.
 
-```bash
-npm install
-npm run build
-```
+LinkDex requires Obsidian 1.13.0 or later.
 
-3. Copy or symlink the plugin into your vault:
+## Index file setup
 
-```bash
-mkdir -p /path/to/vault/.obsidian/plugins/linkdex
-ln -s "$(pwd)/main.js" /path/to/vault/.obsidian/plugins/linkdex/main.js
-ln -s "$(pwd)/manifest.json" /path/to/vault/.obsidian/plugins/linkdex/manifest.json
-ln -s "$(pwd)/styles.css" /path/to/vault/.obsidian/plugins/linkdex/styles.css
-```
+LinkDex reads terms from a vault index file. By default, that file is `_index.md`.
 
-4. Enable **LinkDex** in Obsidian settings under Community plugins.
-
-## Terms file
-
-Create a file in your vault with one term per line. Blank lines and lines starting with `//` are ignored.
+Create the file in your vault with one term per line. Blank lines and lines starting with `//` are ignored as terms.
 
 Example `_index.md`:
 
@@ -40,69 +30,54 @@ Daily Notes
 Project Alpha
 ```
 
-Lines starting with `//` are ignored as terms, except the `//Auto Indexed` marker which separates manually maintained terms from auto-managed terms.
+- Lines above `//Auto Indexed` are manual terms you maintain yourself.
+- Lines below `//Auto Indexed` are managed by LinkDex when you use the suggest workflow.
 
-Configure the vault-relative path in **Settings → LinkDex → Terms file path** (default: `_index.md`). Point this setting at a dedicated index file only. LinkDex reads and writes that file when suggesting terms; using a regular note path can overwrite note content.
+Set the index file path in **Settings → LinkDex → Terms file path**. Use a dedicated index file. LinkDex reads and writes this file when suggesting terms.
 
-## Usage
+## Basic usage
 
-### Link terms in active file
+### Link terms in the active note
 
 1. Open a markdown note.
-2. Click the link icon in the left sidebar ribbon, or use the **Link terms in active file** hotkey.
-3. LinkDex scans the active file and wraps matching terms in `[[...]]`.
+2. Run **Link terms in active file**, or click the link icon in the left ribbon.
+3. LinkDex scans the open note and wraps matching index terms in `[[...]]`.
 
-### Suggest index terms from vault
+LinkDex matches whole words only, ignores case, prefers longer multi-word terms first, and skips existing wikilinks, markdown links, fenced code blocks, and inline code.
 
-1. Run **Suggest index terms from vault** from the command palette, or assign a hotkey in **Settings → Hotkeys**.
-2. LinkDex scans all markdown note names in your vault and compares them against your index file and any terms you previously marked as "Don't Suggest Again".
-3. A modal lists remaining note names with two checkbox columns:
+## Hotkeys
+
+Both commands can be assigned hotkeys in **Settings → Hotkeys**:
+
+| Command | What it does |
+| --- | --- |
+| **Link terms in active file** | Wrap matching index terms in the current note |
+| **Suggest index terms from vault** | Open the term suggestion modal |
+
+To assign a hotkey:
+
+1. Open **Settings → Hotkeys**.
+2. Search for `LinkDex` or the command name.
+3. Click the plus icon next to the command and press your preferred key combination.
+
+## Auto index suggestions
+
+Use **Suggest index terms from vault** to build your index from note titles already in your vault.
+
+1. Run the command from the command palette or via a hotkey.
+2. LinkDex collects markdown note names from your vault and removes:
+   - Terms already in your index file
+   - Terms you previously marked **Don't suggest again**
+3. A modal lists the remaining note names with two checkbox columns:
    - **Add** — append the term to the `//Auto Indexed` section of your index file
-   - **Don't Suggest Again** — hide the term from future suggestion runs
+   - **Don't suggest again** — hide the term from future suggestion runs
 4. Click **Add to index** to apply your selections.
 
-Added terms are merged into the `//Auto Indexed` section in alphabetical order without duplication. Manual terms above the `//Auto Indexed` marker are preserved unchanged.
-
-Matching rules:
-
-- Whole words only
-- Case-insensitive
-- Longer multi-word terms are matched before shorter overlapping terms
-- Existing `[[wikilinks]]`, markdown links, fenced code blocks, and inline code are left unchanged
+Added terms are merged into the `//Auto Indexed` section in alphabetical order without duplication. Manual terms above the marker are preserved unchanged.
 
 ## Development
 
-```bash
-npm run dev
-```
-
-This watches `main.ts` and rebuilds `main.js`.
-
-Run lint checks before releasing:
-
-```bash
-npm run lint
-```
-
-## Releasing
-
-Community plugin installs use GitHub Release assets, not the repository source tree.
-
-1. Update the version in `manifest.json`, `package.json`, and `versions.json`.
-2. Run a production build:
-
-```bash
-npm run build
-```
-
-3. Create a GitHub Release tagged with the version (for example, `1.0.0`).
-4. Attach these files from the repo root to the release:
-   - `main.js`
-   - `manifest.json`
-   - `styles.css`
-   - `versions.json`
-
-Obsidian downloads those release assets when users install or update the plugin.
+For local development, clone this repository, run `npm install`, then `npm run dev` or `npm run build`.
 
 ## License
 

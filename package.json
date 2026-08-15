@@ -1,6 +1,6 @@
 {
 	"name": "linkdex",
-	"version": "1.0.1",
+	"version": "1.0.3",
 	"description": "Automatically wrap relevant terms in wiki-style links based on a list of terms stored in an index file.",
 	"main": "main.js",
 	"scripts": {
